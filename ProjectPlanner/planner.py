@@ -1,5 +1,6 @@
 from collections import namedtuple
 import csv
+import tkinter
 
 #making a named tuple to make accessing data later easier
 Task_tuple = namedtuple("Task_tuple", ["title", "length", "prereq"])
@@ -41,3 +42,12 @@ def task_orderer(dict_tasks):
                 not_completed.remove(id_num)
 
     return days_start
+
+#drwing the ghenttchart using tk
+root = thinker.Tk()
+root.title("Project Planner")
+open_button = tkinter.Button(root, text="Open project", command=open_project)
+open_button.pack(side="top")
+canvas = tkinter.Canvas(root, width=800, height=400, bg="white")
+canvas.psck(side="bottom")
+tkinter.mainloop()
