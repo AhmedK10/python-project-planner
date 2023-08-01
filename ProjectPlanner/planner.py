@@ -18,3 +18,26 @@ def task_reader(file):
 
     #returns all data
     return dict_tasks
+
+def task_orderer(dict_tasks):
+    not_completed = set(dict_tasks)
+    days_start = {}
+    completed = set()
+
+    #looping over incompleted task until they become completed
+    while not_completed:
+        for id_num in not_completed:
+            task = dict_tasks[id_num]
+
+            # checks if a preq has been done
+            if task.prereq.issubset(completed):
+                earliest_day_start = 0
+                for no_prereq in task.prereq:
+                    prereq_day_end = days_start[no_prereq] + dict_tasks[no_prereq].length
+                    if prereq_day_end > earliest_day_start:
+                        earliest_day_start = prereq_day_end
+                days_start[id_num] = earliest_day_start
+                completed.add(id_num)
+                not_completed.remove(id_num)
+
+    return days_start
