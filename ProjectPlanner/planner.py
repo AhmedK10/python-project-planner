@@ -1,6 +1,7 @@
-from collections import namedtuple
 import csv
 import tkinter
+from collections import namedtuple
+from tkinter,filedialog import askopenfilename
 
 #making a named tuple to make accessing data later easier
 Task_tuple = namedtuple("Task_tuple", ["title", "length", "prereq"])
@@ -44,6 +45,21 @@ def task_orderer(dict_tasks):
     return days_start
 
 #drwing the ghenttchart using tk
+def draw_chart(tasks, canvas, row_height=40, title_width=300, line_height=40, day_width=20, bar_height=20, title_indent=20, font_size=-16):
+    height = canvas["height"]
+    width = canvas["width"]
+    week_width = 5 * day_width
+    canvas.create_line(0, row_height, width, line_height, fill="grey")
+    for week_number in range(5):
+        x = title_width + week_number * week_width
+        canvas.create_line(x, 0, x, height, fill="grey")
+        canvas.create_text(x + week_width/2, row_height/2, text=f"Week {week_number + 1}", font=("Helvetica", font_size, "bold"))
+
+def open_project():
+    filename = askopenfilename(title="Open Project", iniialdir=".", filetypes=[("CSV Document", "*.csv")])
+    tasks = task_reader(filename)
+    draw_chart(tasks, canvas)
+
 root = thinker.Tk()
 root.title("Project Planner")
 open_button = tkinter.Button(root, text="Open project", command=open_project)
